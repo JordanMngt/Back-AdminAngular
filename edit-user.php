@@ -3,7 +3,7 @@
 include('header-init.php');
 include('extraction-jwt.php');
 
-if($utilisateur->role != ('Administrateur')){
+if($utilisateur->role != ('Admin')){
     http_response_code(403);
     echo '{"message" : "Vous n\'avez pas les droits nécessaires"}';
     exit();

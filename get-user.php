@@ -3,7 +3,7 @@
 include('header-init.php');
 include('extraction-jwt.php');
 
-if($utilisateur->role != ('Administrateur')){
+if($utilisateur->role != ('Admin')){
     http_response_code(403);
     echo '{"message" : "Vous n\'avez pas les droits nécessaires"}';
     exit();
@@ -18,9 +18,9 @@ if(!isset($_GET['id'])) {
 
 $idUser = $_GET['id'];
 
-$requete = $db->prepare('SELECT u.id_user, u.email, u.firstname, u.lastname, r.name AS role  FROM utilisateur as u JOIN role as r ON u.id_role = r.id_user WHERE u.id = :id');
+$requete = $db->prepare('SELECT u.id_user, u.email, u.firstname, u.lastname, r.name AS role  FROM utilisateur as u JOIN role as r ON u.id_role = r.id_role WHERE u.id_user = :id_user');
 
-$requete->bindValue('id', $idUser);
+$requete->bindValue('id_user', $idUser);
 
 $requete->execute();
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 07 juin 2024 à 11:18
+-- Généré le : mar. 18 juin 2024 à 14:35
 -- Version du serveur : 8.2.0
 -- Version de PHP : 8.2.13
 
@@ -24,6 +24,24 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `absence`
+--
+
+DROP TABLE IF EXISTS `absence`;
+CREATE TABLE IF NOT EXISTS `absence` (
+  `id_absence` int NOT NULL AUTO_INCREMENT,
+  `justifie` varchar(50) DEFAULT NULL,
+  `absence_date` datetime DEFAULT NULL,
+  `posseder` int DEFAULT NULL,
+  `valider` int NOT NULL,
+  PRIMARY KEY (`id_absence`),
+  KEY `id_user` (`posseder`),
+  KEY `id_user_1` (`valider`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `justificatif`
 --
 
@@ -35,24 +53,6 @@ CREATE TABLE IF NOT EXISTS `justificatif` (
   `id_retard` int NOT NULL,
   PRIMARY KEY (`id_justificatif`),
   KEY `id_retard` (`id_retard`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `retard`
---
-
-DROP TABLE IF EXISTS `retard`;
-CREATE TABLE IF NOT EXISTS `retard` (
-  `id_retard` int NOT NULL AUTO_INCREMENT,
-  `justifie` varchar(50) DEFAULT NULL,
-  `retard_date` datetime DEFAULT NULL,
-  `id_user` int DEFAULT NULL,
-  `id_user_1` int NOT NULL,
-  PRIMARY KEY (`id_retard`),
-  KEY `id_user` (`id_user`),
-  KEY `id_user_1` (`id_user_1`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `id_role` int NOT NULL,
   PRIMARY KEY (`id_user`),
   KEY `id_role` (`id_role`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `utilisateur`
@@ -100,7 +100,22 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
 
 INSERT INTO `utilisateur` (`id_user`, `email`, `password`, `firstname`, `lastname`, `id_role`) VALUES
 (1, 'a@a', '$2y$10$vQ.KnMQsJnfUzipxlZ0MjO.qxF4Zy8WYYhgypjFMlM0jF.Wb84ksq', 'admin', 'admin', 1),
-(2, 'e@e', 'root', 'eleve', 'eleve', 2);
+(2, 'e@e', '$2y$10$vQ.KnMQsJnfUzipxlZ0MjO.qxF4Zy8WYYhgypjFMlM0jF.Wb84ksq', 'eleve', 'eleve', 2),
+(3, 't@t', '$2y$10$xDX5eeYt7ZyEEu12K5ReO.W6BzTFCS6Jw1hr4x4q9V5eQ1y6ReQbC', 't', 't', 2),
+(20, 'm@m', '$2y$10$UZXXFdwKLYFZQo/re7IZF.jmDGmQ4EOu2mYZGYQN0XBrSzlssF/VC', 'g', 'g', 2),
+(6, 'user3@example.com', '$2y$10$vQ.KnMQsJnfUzipxlZ0MjO.qxF4Zy8WYYhgypjFMlM0jF.Wb84ksq', 'Alice', 'Johnson', 2),
+(8, 'user5@example.com', '$2y$10$vQ.KnMQsJnfUzipxlZ0MjO.qxF4Zy8WYYhgypjFMlM0jF.Wb84ksq', 'Charlie', 'Brown', 2),
+(9, 'user6@example.com', '$2y$10$vQ.KnMQsJnfUzipxlZ0MjO.qxF4Zy8WYYhgypjFMlM0jF.Wb84ksq', 'David', 'Jones', 2),
+(10, 'user7@example.com', '$2y$10$vQ.KnMQsJnfUzipxlZ0MjO.qxF4Zy8WYYhgypjFMlM0jF.Wb84ksq', 'Eve', 'Garcia', 2),
+(11, 'user8@example.com', '$2y$10$vQ.KnMQsJnfUzipxlZ0MjO.qxF4Zy8WYYhgypjFMlM0jF.Wb84ksq', 'Frank', 'Martinez', 2),
+(12, 'user9@example.com', '$2y$10$vQ.KnMQsJnfUzipxlZ0MjO.qxF4Zy8WYYhgypjFMlM0jF.Wb84ksq', 'Grace', 'Hernandez', 2),
+(13, 'user10@example.com', '$2y$10$vQ.KnMQsJnfUzipxlZ0MjO.qxF4Zy8WYYhgypjFMlM0jF.Wb84ksq', 'Hank', 'Lopez', 2),
+(14, 'user11@example.com', '$2y$10$vQ.KnMQsJnfUzipxlZ0MjO.qxF4Zy8WYYhgypjFMlM0jF.Wb84ksq', 'Ivy', 'Gonzalez', 2),
+(15, 'user12@example.com', '$2y$10$vQ.KnMQsJnfUzipxlZ0MjO.qxF4Zy8WYYhgypjFMlM0jF.Wb84ksq', 'Jack', 'Wilson', 2),
+(16, 'user13@example.com', '$2y$10$vQ.KnMQsJnfUzipxlZ0MjO.qxF4Zy8WYYhgypjFMlM0jF.Wb84ksq', 'Kathy', 'Anderson', 2),
+(17, 'user14@example.com', '$2y$10$vQ.KnMQsJnfUzipxlZ0MjO.qxF4Zy8WYYhgypjFMlM0jF.Wb84ksq', 'Leo', 'Thomas', 2),
+(18, 'user15@example.com', '$2y$10$vQ.KnMQsJnfUzipxlZ0MjO.qxF4Zy8WYYhgypjFMlM0jF.Wb84ksq', 'Mia', 'Taylor', 2),
+(19, 'o@o', '$2y$10$vZzgknOhg/U7NeXmtaURbeyAteMdWlbNjC4yEddkRU4L46e2UabGK', 't', 't', 2);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

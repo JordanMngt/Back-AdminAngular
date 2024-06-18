@@ -3,7 +3,7 @@
 include('header-init.php');
 include('extraction-jwt.php');
 
-if($utilisateur->role != ('Administrateur')){
+if($utilisateur->role != ('Admin')){
     http_response_code(403);
     echo '{"message" : "Vous n\'avez pas les droits nécessaires"}';
     exit();
@@ -13,14 +13,14 @@ $json = file_get_contents('php://input');
 
 $utilisateur = json_decode($json);
 
-$requete = $db->prepare("SELECT id FROM role WHERE name = :name");
+$requete = $db->prepare("SELECT id_role FROM role WHERE name = :name");
 $requete->bindValue("name", $utilisateur->role);
 $requete->execute();
 $role = $requete->fetch();
 
 if(!$role)
 {
-  http_responde_code(400);
+  http_response_code(400);
   echo '{"message" : "ce role n\'existe pas"}';
   exit();
 }
@@ -33,7 +33,7 @@ $requete->bindValue("email", $utilisateur->email);
 $requete->bindValue("password", $passwordHash);
 $requete->bindValue("firstname", $utilisateur->firstname);
 $requete->bindValue("lastname", $utilisateur->lastname);
-$requete->bindValue("id_role", $role['id']);
+$requete->bindValue("id_role", $role['id_role']);
 
 $requete->execute();
 
